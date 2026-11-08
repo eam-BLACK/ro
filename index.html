@@ -123,6 +123,66 @@
     /* Hide scrollbars on horizontal galleries */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Edge Fade / Seamless BG Integration for Photos & Videos (Unboxed & Merged with BG) */
+    .edge-fade-media-lg {
+      position: relative;
+      border: none !important;
+      outline: none !important;
+      -webkit-mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0.85) 82%, rgba(0, 0, 0, 0) 100%);
+      mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, rgba(0, 0, 0, 1) 62%, rgba(0, 0, 0, 0.85) 82%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .edge-fade-media {
+      position: relative;
+      border: none !important;
+      outline: none !important;
+      -webkit-mask-image: radial-gradient(ellipse 95% 90% at 50% 50%, rgba(0, 0, 0, 1) 58%, rgba(0, 0, 0, 0.8) 80%, rgba(0, 0, 0, 0) 100%);
+      mask-image: radial-gradient(ellipse 95% 90% at 50% 50%, rgba(0, 0, 0, 1) 58%, rgba(0, 0, 0, 0.8) 80%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .edge-fade-photo {
+      position: relative;
+      border: none !important;
+      outline: none !important;
+      -webkit-mask-image: radial-gradient(ellipse 82% 76% at 50% 50%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 88%);
+      mask-image: radial-gradient(ellipse 82% 76% at 50% 50%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 88%);
+    }
+
+    /* Infinite Marquee Slides for Reviews */
+    @keyframes marquee-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes marquee-right {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .animate-marquee-left {
+      display: flex;
+      width: max-content;
+      animation: marquee-left 55s linear infinite;
+    }
+    .animate-marquee-right {
+      display: flex;
+      width: max-content;
+      animation: marquee-right 55s linear infinite;
+    }
+    .animate-marquee-left:hover,
+    .animate-marquee-right:hover,
+    .animate-marquee-single:hover {
+      animation-play-state: paused;
+    }
+    .animate-marquee-single {
+      display: flex;
+      flex-wrap: nowrap;
+      width: max-content;
+      animation: marquee-left 75s linear infinite;
+    }
+    .marquee-mask {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
   </style>
 </head>
 <body class="bg-[#070b14] text-slate-200 font-sans antialiased selection:bg-ro-azure selection:text-black overflow-x-hidden relative">
@@ -147,14 +207,10 @@
 
       <!-- Desktop Nav Links -->
       <nav class="hidden lg:flex items-center space-x-7 text-sm font-medium text-slate-300">
+        <a href="#hero" class="hover:text-white transition-colors duration-200">Home</a>
+        <a href="#video-trailer" class="hover:text-white transition-colors duration-200">Trailer</a>
         <a href="#gallery" class="hover:text-white transition-colors duration-200">Gallery</a>
         <a href="#streamers" class="hover:text-white transition-colors duration-200">Streamers</a>
-        <a href="#about" class="hover:text-white transition-colors duration-200">About</a>
-        <a href="#bento" class="hover:text-white transition-colors duration-200">Key Features</a>
-        <a href="#druid" class="hover:text-ro-emerald transition-colors duration-200 flex items-center gap-1.5">
-          <span>Druid Class</span>
-          <span class="inline-block w-2 h-2 rounded-full bg-ro-emerald animate-ping"></span>
-        </a>
         <a href="#reviews" class="hover:text-white transition-colors duration-200">Reviews</a>
       </nav>
 
@@ -213,13 +269,8 @@
       </h1>
 
       <!-- Official Tagline -->
-      <p class="font-display text-xl sm:text-2xl md:text-3xl text-ro-azure tracking-widest font-semibold mb-6">
+      <p class="font-display text-xl sm:text-2xl md:text-3xl text-ro-azure tracking-widest font-semibold mb-10">
         “The first open-word RO MMORPG”
-      </p>
-
-      <!-- Subtitle Description -->
-      <p class="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-300 font-normal leading-relaxed mb-10 text-balance">
-        The first open-world RO! This time, the world is unimaginably vast! Every scene is a grandiose view, and every step an adventure! Let’s journey across time, go beyond the classics, and meet in the New World. This time, <span class="text-white font-semibold underline decoration-ro-gold decoration-2 underline-offset-4">Dare to Play Different!</span>
       </p>
 
       <!-- Hero Call To Action Group -->
@@ -267,12 +318,15 @@
   <!-- VIDEO TRAILER / SHOWCASE SECTION (OFFICIAL YOUTUBE TRAILER) -->
   <section id="video-trailer" class="relative py-20 z-10">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="glass-panel p-4 sm:p-6 rounded-3xl border border-white/20 relative shadow-2xl overflow-hidden">
+      
+      <!-- Ambient Glow Behind Video (Blends Trailer with background) -->
+      <div class="relative group">
+        <div class="absolute inset-0 bg-ro-azure/15 rounded-full blur-[100px] pointer-events-none -z-10 scale-90 opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-        <!-- YouTube Video Embed -->
-        <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+        <!-- YouTube Video Embed (Unboxed, Edges Fade Seamlessly into BG) -->
+        <div class="relative w-full aspect-video rounded-3xl overflow-hidden edge-fade-media-lg">
           <iframe 
-            class="w-full h-full rounded-2xl" 
+            class="w-full h-full" 
             src="https://www.youtube.com/embed/s9tQLg2QQUQ?si=rhfhXnGbQVHfgHJv&rel=0&modestbranding=1" 
             title="Ragnarok: The New World — Official YouTube Trailer" 
             frameborder="0" 
@@ -282,14 +336,14 @@
           </iframe>
         </div>
 
-        <!-- Footer Bar under trailer -->
-        <div class="pt-4 mt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <!-- Caption Bar under trailer -->
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
           <div>
-            <h3 class="text-lg sm:text-xl font-display font-bold text-white">Ragnarok: The New World — Official Trailer</h3>
+            <h3 class="text-xl sm:text-2xl font-display font-bold text-white tracking-wide">Ragnarok: The New World — Official Trailer</h3>
           </div>
           <div>
             <a href="https://store.steampowered.com/app/4212480/Ragnarok_The_New_World/" target="_blank" rel="noopener noreferrer"
-               class="glass-btn-steam text-white text-xs font-semibold px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-lg hover:scale-105 transition-all">
+               class="glass-btn-steam text-white text-xs font-semibold px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:scale-105 transition-all">
               <span>Wishlist on Steam</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
@@ -302,108 +356,105 @@
 
   <!-- IMAGE GALLERY SECTION (Directly following Video Trailer) -->
   <section id="gallery" class="relative py-24 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+    <div class="max-w-[1550px] mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="mb-12">
         <div>
           <span class="text-ro-azure uppercase tracking-widest text-xs font-bold font-mono">World Showcase</span>
           <h2 class="text-3xl sm:text-5xl font-display font-bold text-white mt-2">
             Visions of the New World
           </h2>
         </div>
-        <p class="text-slate-400 text-sm sm:text-base max-w-md mt-4 md:mt-0">
-          From lush Prontera plains to mysterious mountaintop altars, Midgard awaits your footprint.
-        </p>
       </div>
 
-      <!-- Gallery Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Gallery Grid (Larger Photos, Close Together, Feathered Dissolving Edges) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
         <!-- Item 1: Open World Exploration -->
-        <div class="glass-card rounded-3xl overflow-hidden group border border-white/10 relative">
-          <div class="aspect-video w-full overflow-hidden">
+        <div class="group relative transition-all duration-300">
+          <div class="aspect-[16/10] w-full overflow-hidden relative edge-fade-photo">
             <img src="assets/images/gallery-1.jpg" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=900&auto=format&fit=crop';"
                  alt="Open World Landscapes" 
-                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-100" />
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <div class="p-6">
-            <span class="text-xs text-ro-azure font-mono uppercase">Vast World</span>
+          <div class="pt-3 px-3">
+            <span class="text-xs text-ro-azure font-mono uppercase font-semibold tracking-wider">Vast World</span>
             <h4 class="font-display font-bold text-lg text-white mt-1">Boundless Horizons</h4>
-            <p class="text-xs text-slate-400 mt-2">Scale peaks and explore hidden caverns across a seamless universe.</p>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Scale peaks and explore hidden caverns across a seamless universe.</p>
           </div>
         </div>
 
         <!-- Item 2: Dungeon & Boss Battles -->
-        <div class="glass-card rounded-3xl overflow-hidden group border border-white/10 relative">
-          <div class="aspect-video w-full overflow-hidden">
+        <div class="group relative transition-all duration-300">
+          <div class="aspect-[16/10] w-full overflow-hidden relative edge-fade-photo">
             <img src="assets/images/gallery-2.jpg" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=900&auto=format&fit=crop';"
                  alt="MVP Boss Battle" 
-                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-100" />
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <div class="p-6">
-            <span class="text-xs text-ro-crimson font-mono uppercase">MVP Encounters</span>
+          <div class="pt-3 px-3">
+            <span class="text-xs text-ro-crimson font-mono uppercase font-semibold tracking-wider">MVP Encounters</span>
             <h4 class="font-display font-bold text-lg text-white mt-1">Conquer the Strongest</h4>
-            <p class="text-xs text-slate-400 mt-2">Tame world-ending MVPs into your own personal rideable beasts.</p>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Tame world-ending MVPs into your own personal rideable beasts.</p>
           </div>
         </div>
 
         <!-- Item 3: Social & Duo Teleports -->
-        <div class="glass-card rounded-3xl overflow-hidden group border border-white/10 relative">
-          <div class="aspect-video w-full overflow-hidden">
+        <div class="group relative transition-all duration-300">
+          <div class="aspect-[16/10] w-full overflow-hidden relative edge-fade-photo">
             <img src="assets/images/gallery-3.jpg" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=900&auto=format&fit=crop';"
                  alt="Duo teleports and romance" 
-                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-100" />
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <div class="p-6">
-            <span class="text-xs text-pink-400 font-mono uppercase">Love & Bond</span>
+          <div class="pt-3 px-3">
+            <span class="text-xs text-pink-400 font-mono uppercase font-semibold tracking-wider">Love & Bond</span>
             <h4 class="font-display font-bold text-lg text-white mt-1">Hearts Flutter Together</h4>
-            <p class="text-xs text-slate-400 mt-2">Duo teleports, couple sanctuaries, and unforgettable wedding ceremonies.</p>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Duo teleports, couple sanctuaries, and unforgettable wedding ceremonies.</p>
           </div>
         </div>
 
         <!-- Item 4: Fashion & Dyeing -->
-        <div class="glass-card rounded-3xl overflow-hidden group border border-white/10 relative">
-          <div class="aspect-video w-full overflow-hidden">
+        <div class="group relative transition-all duration-300">
+          <div class="aspect-[16/10] w-full overflow-hidden relative edge-fade-photo">
             <img src="assets/images/gallery-4.jpg" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=900&auto=format&fit=crop';"
                  alt="Custom Fashion and Dye" 
-                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-100" />
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <div class="p-6">
-            <span class="text-xs text-ro-violet font-mono uppercase">Haute Couture</span>
+          <div class="pt-3 px-3">
+            <span class="text-xs text-ro-violet font-mono uppercase font-semibold tracking-wider">Haute Couture</span>
             <h4 class="font-display font-bold text-lg text-white mt-1">Custom Styling & Cuts</h4>
-            <p class="text-xs text-slate-400 mt-2">From dyeing fabrics to unique headpieces, express yourself without limits.</p>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">From dyeing fabrics to unique headpieces, express yourself without limits.</p>
           </div>
         </div>
 
         <!-- Item 5: The Druid's Call -->
-        <div class="glass-card rounded-3xl overflow-hidden group border border-white/10 relative">
-          <div class="aspect-video w-full overflow-hidden">
+        <div class="group relative transition-all duration-300">
+          <div class="aspect-[16/10] w-full overflow-hidden relative edge-fade-photo">
             <img src="assets/images/gallery-5.jpg" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=900&auto=format&fit=crop';"
                  alt="Druid Triple Transformation" 
-                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-100" />
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <div class="p-6">
-            <span class="text-xs text-ro-emerald font-mono uppercase">Three Forms</span>
+          <div class="pt-3 px-3">
+            <span class="text-xs text-ro-emerald font-mono uppercase font-semibold tracking-wider">Three Forms</span>
             <h4 class="font-display font-bold text-lg text-white mt-1">Wolf, Raptor, Arcanist</h4>
-            <p class="text-xs text-slate-400 mt-2">Fluid shapeshifting on the fly for unmatched tactical superiority.</p>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Fluid shapeshifting on the fly for unmatched tactical superiority.</p>
           </div>
         </div>
 
         <!-- Item 6: Merchant's Tradehouse -->
-        <div class="glass-card rounded-3xl overflow-hidden group border border-white/10 relative">
-          <div class="aspect-video w-full overflow-hidden">
+        <div class="group relative transition-all duration-300">
+          <div class="aspect-[16/10] w-full overflow-hidden relative edge-fade-photo">
             <img src="assets/images/gallery-6.jpg" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=900&auto=format&fit=crop';"
                  alt="Player Economy and Tradehouse" 
-                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-100" />
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <div class="p-6">
-            <span class="text-xs text-ro-gold font-mono uppercase">Player Marketplace</span>
+          <div class="pt-3 px-3">
+            <span class="text-xs text-ro-gold font-mono uppercase font-semibold tracking-wider">Player Marketplace</span>
             <h4 class="font-display font-bold text-lg text-white mt-1">Auction House Wealth</h4>
-            <p class="text-xs text-slate-400 mt-2">Haggle, bid, and climb from street stall peddler to global economic titan.</p>
+            <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">Haggle, bid, and climb from street stall peddler to global economic titan.</p>
           </div>
         </div>
       </div>
@@ -415,7 +466,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <div class="mb-12">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel text-xs text-red-400 border border-red-500/30 font-semibold tracking-wide uppercase mb-3">
             <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -425,51 +476,54 @@
             Streamers & Creators in Action
           </h2>
         </div>
-        <p class="text-slate-400 text-sm sm:text-base max-w-md mt-4 md:mt-0">
-          Watch top content creators dive deep into gameplay, explore the open world, and test builds in real-time.
-        </p>
       </div>
 
-      <!-- 2 Streamers Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- 2 Streamers Grid (Unboxed, Edges Fading into Background) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
         
         <!-- Streamer Card 1 -->
-        <div class="glass-panel p-5 rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden group hover:border-red-500/40 transition-all duration-300">
-          <!-- Video Frame -->
-          <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-white/10 shadow-lg mb-5">
+        <div class="relative group">
+          <!-- Subtle ambient glow behind streamer video -->
+          <div class="absolute inset-0 bg-red-600/10 rounded-full blur-[80px] pointer-events-none -z-10 scale-90 opacity-60 group-hover:opacity-100 transition-opacity duration-700"></div>
+          
+          <!-- Video Frame (Unboxed, Edges Fade Seamlessly) -->
+          <div class="relative w-full aspect-video rounded-3xl overflow-hidden edge-fade-media mb-4">
             <iframe 
-              class="w-full h-full rounded-2xl" 
+              class="w-full h-full" 
               src="https://www.youtube.com/embed/MrSFwbqtDTM?rel=0&modestbranding=1" 
               title="Ragnarok: The New World Gameplay by Streamer" 
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              referrerpolicy="strict-origin-when-cross-origin"
+              referrerpolicy="strict-origin-when-cross-origin" 
               allowfullscreen>
             </iframe>
           </div>
           <!-- Info -->
-          <div>
+          <div class="px-2">
             <span class="text-[11px] font-mono uppercase tracking-wider text-ro-azure font-semibold">Featured Gameplay</span>
             <h3 class="text-base sm:text-lg font-display font-bold text-white mt-0.5">Gameplay Walkthrough & First Look</h3>
           </div>
         </div>
 
         <!-- Streamer Card 2 -->
-        <div class="glass-panel p-5 rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden group hover:border-red-500/40 transition-all duration-300">
-          <!-- Video Frame -->
-          <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-white/10 shadow-lg mb-5">
+        <div class="relative group">
+          <!-- Subtle ambient glow behind streamer video -->
+          <div class="absolute inset-0 bg-ro-gold/10 rounded-full blur-[80px] pointer-events-none -z-10 scale-90 opacity-60 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+          <!-- Video Frame (Unboxed, Edges Fade Seamlessly) -->
+          <div class="relative w-full aspect-video rounded-3xl overflow-hidden edge-fade-media mb-4">
             <iframe 
-              class="w-full h-full rounded-2xl" 
+              class="w-full h-full" 
               src="https://www.youtube.com/embed/h2U4bCn3czM?rel=0&modestbranding=1" 
               title="Ragnarok: The New World Gameplay & Review" 
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              referrerpolicy="strict-origin-when-cross-origin"
+              referrerpolicy="strict-origin-when-cross-origin" 
               allowfullscreen>
             </iframe>
           </div>
           <!-- Info -->
-          <div>
+          <div class="px-2">
             <span class="text-[11px] font-mono uppercase tracking-wider text-ro-gold font-semibold">Creator Review</span>
             <h3 class="text-base sm:text-lg font-display font-bold text-white mt-0.5">Combat Highlights & Open-World Depth</h3>
           </div>
@@ -479,353 +533,39 @@
     </div>
   </section>
 
-  <!-- ABOUT THE BUSINESS & EXPANDED LORE -->
-  <section id="about" class="relative py-24 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-5 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel text-xs text-ro-azure border border-ro-azure/30 font-semibold tracking-wide uppercase">
-            A New Era of RO
-          </div>
-          <h2 class="text-3xl sm:text-5xl font-display font-bold text-white leading-tight">
-            The First Open-World <br />
-            <span class="gradient-text-cyan">Ragnarok MMORPG</span>
-          </h2>
-          <p class="text-slate-300 text-lg leading-relaxed">
-            The first open-world RO! This time, the world is unimaginably vast! Every scene is a grandiose view, and every step an adventure! Let’s journey across time, go beyond the classics, and meet in the New World. This time, <strong class="text-white">Dare to Play Different!</strong>
-          </p>
-          <div class="glass-card p-5 rounded-2xl border border-white/10 space-y-3">
-            <div class="flex items-center gap-3 text-ro-gold font-semibold text-sm">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-              </svg>
-              <span>Steam Release Status</span>
-            </div>
-            <p class="text-sm text-slate-400">
-              Please stay tuned for an official announcement regarding the Steam version’s release time. Wishlist today to be instantly notified upon launch!
-            </p>
-          </div>
-        </div>
 
-        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-ro-azure flex items-center justify-center text-2xl mb-4 border border-sky-500/30">
-              🌍
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-xl text-white mb-2">Unbounded World</h3>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                Scale soaring cliffs, traverse deep primeval forests, swim crystal rivers, and discover ancient ruins without restrictive loading screens.
-              </p>
-            </div>
-          </div>
 
-          <div class="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-ro-gold flex items-center justify-center text-2xl mb-4 border border-amber-500/30">
-              ⚔️
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-xl text-white mb-2">Job Flexibility</h3>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                Be a tank and get chased by a boss today, heal your teammates tomorrow. Free skill resets mean you'll never pick a wrong class!
-              </p>
-            </div>
-          </div>
+  <!-- REPLACEMENT SECTION PLACEHOLDER -->
+  <!-- [New Content Will Be Inserted Here] -->
 
-          <div class="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-ro-emerald flex items-center justify-center text-2xl mb-4 border border-emerald-500/30">
-              🛡️
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-xl text-white mb-2">Zero Gear Loss</h3>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                Refine safely up to +15 with zero level degradation on failure. Gear stays 100% intact—push limits without heartbreak.
-              </p>
-            </div>
-          </div>
 
-          <div class="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-ro-violet flex items-center justify-center text-2xl mb-4 border border-purple-500/30">
-              💍
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-xl text-white mb-2">Hearts Flutter</h3>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                Duo teleports, shared memory albums, couple instances, and server-wide wedding ceremonies under starlit skies.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+
+  <!-- TESTIMONIALS / COMMUNITY HYPE (15 EVALUATIONS AUTOMATIC SLIDING CAROUSEL) -->
+  <section id="reviews" class="relative py-24 z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center">
+      <span class="text-ro-azure uppercase tracking-widest text-xs font-bold font-mono">Community & Player Voices</span>
+      <h2 class="text-3xl sm:text-5xl font-display font-bold text-white mt-2 mb-3">
+        Hype From Adventurers
+      </h2>
+      <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+        15 verified evaluations from classic veterans, guild masters, beta explorers, and theorycrafters awaiting the Steam launch.
+      </p>
     </div>
-  </section>
 
-  <!-- BENTO GRID - ALL PILLARS & CORE GAME FEATURES -->
-  <section id="bento" class="relative py-24 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-ro-azure uppercase tracking-widest text-xs font-bold font-mono">Game Systems & Mechanics</span>
-        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white mt-3 mb-4">
-          Engineered For Pure Adventure
-        </h2>
-        <p class="text-slate-400 text-base sm:text-lg">
-          Explore every feature built to give you total control, zero stress, and limitless possibilities across Midgard.
-        </p>
-      </div>
+    <!-- Single Infinite Sliding Track in One Line (15 Evaluations Seamless Loop) -->
+    <div class="marquee-mask w-full overflow-hidden py-4">
+      <div class="animate-marquee-single">
 
-      <!-- ASYMMETRIC BENTO GRID -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- BENTO CARD 1: Druid Debuts (Span 2 on Large) -->
-        <div id="druid" class="lg:col-span-2 glass-panel p-8 sm:p-10 rounded-3xl border border-ro-emerald/30 relative overflow-hidden group">
-          <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-ro-emerald/10 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700"></div>
-          
-          <div class="flex items-center gap-3 mb-4">
-            <span class="px-3 py-1 rounded-full bg-ro-emerald/20 text-ro-emerald text-xs font-bold border border-ro-emerald/40 uppercase tracking-wider">Major Debut</span>
-            <span class="text-xs text-slate-400">First Time in RO Mobile History</span>
-          </div>
-
-          <h3 class="text-2xl sm:text-4xl font-display font-bold text-white mb-4">
-            [Druid Debuts, Adventure Awaits]
-          </h3>
-          <p class="text-slate-300 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl">
-            8 Classes available right from launch! The all-new Druid class makes its debut! For the first time ever, the Druid makes its way into a mobile RO game! Experience the thrill of one class with three playstyles. Switch at any time between three forms:
-          </p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-            <div class="glass-card p-4 rounded-2xl border border-white/10 text-center">
-              <div class="text-3xl mb-2">🐺</div>
-              <div class="font-display font-bold text-white text-base">Werewolf</div>
-              <p class="text-xs text-slate-400 mt-1">Savage feral melee bursts and unstoppable predatory claw strikes.</p>
-            </div>
-            <div class="glass-card p-4 rounded-2xl border border-white/10 text-center">
-              <div class="text-3xl mb-2">🦅</div>
-              <div class="font-display font-bold text-white text-base">Wereraptor</div>
-              <p class="text-xs text-slate-400 mt-1">Airborne mobility, rapid aerial reconnaissance, and swift raptor dives.</p>
-            </div>
-            <div class="glass-card p-4 rounded-2xl border border-white/10 text-center">
-              <div class="text-3xl mb-2">🧙‍♂️</div>
-              <div class="font-display font-bold text-white text-base">Human Arcanist</div>
-              <p class="text-xs text-slate-400 mt-1">Nature magics, root enchantments, and long-range primordial elemental spells.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 2: Seamless Across Three Devices -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 relative overflow-hidden flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-ro-azure flex items-center justify-center text-2xl mb-4 border border-cyan-500/30">
-              💻
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Seamless Across Three Devices]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-4">
-              Switch seamlessly between your phone, tablet, and PC anytime, with your progress perfectly synced—sneak in a session at work, kick back and play at home, or tackle new content late into the night. One world has it all.
-            </p>
-          </div>
-          <div class="glass-card p-4 rounded-2xl border border-white/10 mt-4">
-            <div class="flex items-center justify-between text-xs font-semibold text-ro-azure mb-1">
-              <span>PC Performance Unleashed</span>
-              <span class="font-mono text-ro-gold">120 FPS Ultra</span>
-            </div>
-            <p class="text-[12px] text-slate-400 leading-normal">
-              No delays in open-world PVP, no stutters during dungeon combos, skills always at your command.
-            </p>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 3: Win Easy with Grindless Gaming -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 relative overflow-hidden flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-ro-gold flex items-center justify-center text-2xl mb-4 border border-amber-500/30">
-              💤
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Win Easy with Grindless Gaming]
-            </h3>
-            <ul class="space-y-3 text-sm text-slate-300">
-              <li class="flex items-start gap-2">
-                <span class="text-ro-emerald font-bold">✓</span>
-                <span><strong>Free Stat Resets Forever:</strong> Free resource retrievals. Say goodbye to grinding and spending!</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-ro-emerald font-bold">✓</span>
-                <span><strong>Refine Safely without Breaking:</strong> No level loss on failure! Reach +15 with confidence.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-ro-emerald font-bold">✓</span>
-                <span><strong>Earn Resources Offline:</strong> While you sleep, your character continues the hunt! Idle automatic accumulation.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 4: Change Jobs Anytime -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-ro-crimson flex items-center justify-center text-2xl mb-4 border border-rose-500/30">
-              🔄
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Change Jobs Anytime]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-4">
-              Be a tank and get chased by a boss today, heal your teammates tomorrow—play however you like! Your adventurer will never need a do-over!
-            </p>
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Thief, Swordman, Mage... Master every Class with just one character. Skill resets are always free, so you'll never pick a wrong Class!
-            </p>
-          </div>
-          <div class="flex items-center gap-2 mt-4 text-xs text-ro-gold">
-            <span>🛡️ Tank</span>
-            <span>•</span>
-            <span>🗡️ DPS</span>
-            <span>•</span>
-            <span>✨ Healer</span>
-            <span>•</span>
-            <span>🏹 Ranger</span>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 5: Fight and Travel in Style (MVP Mounts) -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-yellow-500/20 text-yellow-300 flex items-center justify-center text-2xl mb-4 border border-yellow-500/30">
-              👑
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Fight & Travel in Style]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-4">
-              <strong>MVP Mounts:</strong> Defeat the MVP and make it your exclusive mount! Ride atop the world's strongest and conquer the world in style!
-            </p>
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Tame Golden Thief Bug, Baphomet, and Maya into faithful steeds. Traverse the horizons with unmatched prestige.
-            </p>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 6: Style, Dye, and Customize (Span 1) -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-ro-violet flex items-center justify-center text-2xl mb-4 border border-purple-500/30">
-              🎨
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Style, Dye & Customize]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-3">
-              From dyeing fabrics to styling cuts, every step is in your hands! Your fashion creations are one-of-a-kind collections in the world.
-            </p>
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Enjoy styling freedom! Be a dashing Knight today, a charming Bard tomorrow. Tell your story through fashion.
-            </p>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 7: Unlimited Innovative Custom Builds -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-sky-400 flex items-center justify-center text-2xl mb-4 border border-blue-500/30">
-              🔮
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Unlimited Custom Builds]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-3">
-              Break free from Build limits and unleash your signature playstyle in an instant for those epic moments!
-            </p>
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Burst, Summon, Infinite Control? The skill combinations never end with no meta build. Your build is the one that matters!
-            </p>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 8: Party Up & Synergize -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-4 border border-emerald-500/30">
-              🤝
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Party Up & Synergize]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-3">
-              Struggling solo? Find your crew and dominate! Class synergy and skill combos turn even the toughest boss into loot!
-            </p>
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Tanks absorb attacks, DPS dish out massive firepower, healers sustain. Perfect coordination conquers the hardest instance!
-            </p>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 9: Vend Your Way to Fortune -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-2xl mb-4 border border-amber-500/30">
-              💰
-            </div>
-            <h3 class="text-xl sm:text-2xl font-display font-bold text-white mb-3">
-              [Vend Your Way to Fortune]
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-3">
-              Don't rush to sell rare gear! List it for Auction at your desired price, watch as tycoons bid it up, and rake in Gold Coins with ease!
-            </p>
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Haggle, buy low, and sell high! Rise from street vendor to trade house tycoon. Earning Gold Coins is more addictive than hunting monsters!
-            </p>
-          </div>
-        </div>
-
-        <!-- BENTO CARD 10: Hearts Flutter (Span 2 or 3) -->
-        <div class="lg:col-span-2 glass-panel p-8 sm:p-10 rounded-3xl border border-pink-500/30 relative overflow-hidden flex flex-col justify-between">
-          <div class="flex items-center gap-2 text-pink-400 font-semibold text-xs uppercase tracking-wider mb-3">
-            <span>💞 Romance & Social Connection</span>
-          </div>
-          <h3 class="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
-            [Hearts Flutter, Adventure Together]
-          </h3>
-          <p class="text-slate-300 text-base leading-relaxed mb-4">
-            Love without limits! Confess without fear in Ragnarok: The New World. From the first meeting to making your vows, everyone on the server will shower you with blessings as they witness your love.
-          </p>
-          <div class="glass-card p-4 rounded-2xl border border-white/10 text-slate-300 text-sm leading-relaxed">
-            Unlock duo teleports and reach each other in an instant. Build your love nest together and keep an album of memories. Log in every day for couple rewards, tackle instances side by side, and enjoy beautiful sceneries together—let your bond deepen throughout the adventure.
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- TESTIMONIALS / COMMUNITY HYPE -->
-  <section id="reviews" class="relative py-24 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-ro-azure uppercase tracking-widest text-xs font-bold font-mono">Community & Player Voices</span>
-        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white mt-2 mb-4">
-          Hype From Adventurers
-        </h2>
-        <p class="text-slate-400 text-base">
-          See why classic veterans and new wanderers alike are marking their calendars for the Steam launch.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Review 1 -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex text-ro-gold text-sm">★★★★★</div>
+        <!-- Card 1 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-ro-azure/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
             <p class="text-slate-300 text-sm leading-relaxed italic">
               "Free stat resets forever and no gear breakage at +15? This fixes every single headache I had with old-school RO. The Druid's Wereraptor form is pure adrenaline!"
             </p>
           </div>
-          <div class="flex items-center gap-3 mt-6 pt-6 border-t border-white/10">
-            <div class="w-10 h-10 rounded-full bg-blue-500/20 text-ro-azure flex items-center justify-center font-bold">
-              K
-            </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-blue-500/20 text-ro-azure flex items-center justify-center font-bold text-sm border border-blue-500/30">K</div>
             <div>
               <div class="text-sm font-semibold text-white">Kaelen Vance</div>
               <div class="text-xs text-slate-400">RO Veteran (15 Years)</div>
@@ -833,18 +573,16 @@
           </div>
         </div>
 
-        <!-- Review 2 -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex text-ro-gold text-sm">★★★★★</div>
+        <!-- Card 2 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-ro-emerald/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
             <p class="text-slate-300 text-sm leading-relaxed italic">
               "Being able to seamlessly switch between my phone during commute and 120 FPS on my gaming rig at home without losing a second of progress is true next-gen MMORPG design."
             </p>
           </div>
-          <div class="flex items-center gap-3 mt-6 pt-6 border-t border-white/10">
-            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-ro-emerald flex items-center justify-center font-bold">
-              S
-            </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-ro-emerald flex items-center justify-center font-bold text-sm border border-emerald-500/30">S</div>
             <div>
               <div class="text-sm font-semibold text-white">Seraphina Li</div>
               <div class="text-xs text-slate-400">Cross-Platform Guild Leader</div>
@@ -852,130 +590,523 @@
           </div>
         </div>
 
-        <!-- Review 3 -->
-        <div class="glass-panel p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex text-ro-gold text-sm">★★★★★</div>
+        <!-- Card 3 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-purple-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
             <p class="text-slate-300 text-sm leading-relaxed italic">
               "The player-driven auction house and offline resource hunting let me progress even with a busy work schedule. Plus the fashion dye options let us match our guild outfits!"
             </p>
           </div>
-          <div class="flex items-center gap-3 mt-6 pt-6 border-t border-white/10">
-            <div class="w-10 h-10 rounded-full bg-purple-500/20 text-ro-violet flex items-center justify-center font-bold">
-              M
-            </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-purple-500/20 text-ro-violet flex items-center justify-center font-bold text-sm border border-purple-500/30">M</div>
             <div>
               <div class="text-sm font-semibold text-white">Marek Thorne</div>
               <div class="text-xs text-slate-400">Beta Tester & Merchant</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- FINAL CALL TO ACTION SECTION -->
-  <section class="relative py-28 z-10 overflow-hidden">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="glass-panel p-10 sm:p-16 rounded-[40px] text-center border border-white/20 relative shadow-2xl overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-ro-azure/10 via-transparent to-ro-emerald/10 pointer-events-none"></div>
-        
-        <div class="relative z-10 max-w-3xl mx-auto space-y-6">
-          <span class="px-4 py-1.5 rounded-full bg-ro-azure/10 text-ro-azure border border-ro-azure/30 text-xs font-mono uppercase tracking-wider">
-            Dare to Play Different
-          </span>
-
-          <h2 class="text-3xl sm:text-5xl md:text-6xl font-display font-black text-white leading-tight">
-            Meet Us in the <br />
-            <span class="gradient-text-gold">New World</span>
-          </h2>
-
-          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
-            Every scene is a grandiose view, and every step an adventure. Stay tuned for the official Steam launch announcement and claim your launch-day rewards.
-          </p>
-
-          <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="https://store.steampowered.com/app/4212480/Ragnarok_The_New_World/" target="_blank" rel="noopener noreferrer" 
-               class="w-full sm:w-auto glass-btn-steam text-white text-lg font-bold px-10 py-5 rounded-2xl flex items-center justify-center gap-3 shadow-2xl transition-all duration-300">
-              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0z"/>
-              </svg>
-              <span>Wishlist on Steam Now</span>
-            </a>
+        <!-- Card 4 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Finally an open-world Ragnarok with real verticality! Climbing the Prontera cliffs and gliding down into hidden dungeon entrances feels breathtaking on PC."
+            </p>
           </div>
-
-          <p class="text-xs text-slate-500 pt-2 font-mono">
-            Direct Steam link: store.steampowered.com/app/4212480
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="relative z-10 glass-panel border-t border-white/10 pt-16 pb-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
-        <!-- Col 1: Brand -->
-        <div class="md:col-span-2 space-y-4">
-          <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-xl glass-card flex items-center justify-center border border-white/20 overflow-hidden relative">
-              <img src="assets/logo/logo.png" alt="RO Logo" class="w-full h-full object-contain p-0.5 absolute inset-0 z-10" onerror="this.style.opacity='0';" />
-              <svg class="w-5 h-5 text-ro-gold" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" fill="none"/>
-              </svg>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-amber-500/20 text-ro-gold flex items-center justify-center font-bold text-sm border border-amber-500/30">J</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Jin-Woo Park</div>
+              <div class="text-xs text-slate-400">Hardcore WoE Strategist</div>
             </div>
-            <span class="font-display font-bold text-lg text-white">Ragnarok: The New World</span>
-          </div>
-          <p class="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
-            The first open-world RO MMORPG. Journey across time, go beyond the classics, and dare to play different on PC, tablet, and mobile.
-          </p>
-          <div class="flex items-center space-x-4 pt-2">
-            <a href="https://store.steampowered.com/app/4212480/Ragnarok_The_New_World/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="Steam">
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0z"/></svg>
-            </a>
-            <a href="#" class="text-slate-400 hover:text-white transition-colors" title="Discord">
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-            </a>
-            <a href="#" class="text-slate-400 hover:text-white transition-colors" title="YouTube">
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            </a>
           </div>
         </div>
 
-        <!-- Col 2: Navigation -->
-        <div>
-          <h4 class="text-xs font-mono uppercase tracking-wider text-slate-300 mb-4 font-semibold">Explore</h4>
-          <ul class="space-y-2 text-sm text-slate-400">
-            <li><a href="#about" class="hover:text-white transition-colors">About Midgard</a></li>
-            <li><a href="#druid" class="hover:text-white transition-colors">Druid Class Guide</a></li>
-            <li><a href="#bento" class="hover:text-white transition-colors">Core Features</a></li>
-            <li><a href="#gallery" class="hover:text-white transition-colors">Visual Gallery</a></li>
-            <li><a href="#reviews" class="hover:text-white transition-colors">Community Hype</a></li>
-          </ul>
+        <!-- Card 5 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-rose-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Zero skill reset cost means I can spec full support healer for Guild raids, then switch to battle solo DPS in 5 seconds. True gameplay freedom without punishment."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-rose-500/20 text-ro-crimson flex items-center justify-center font-bold text-sm border border-rose-500/30">E</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Elena Rostova</div>
+              <div class="text-xs text-slate-400">Support Main & High Priest</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Col 3: Legal & Academic Disclaimer -->
-        <div>
-          <h4 class="text-xs font-mono uppercase tracking-wider text-slate-300 mb-4 font-semibold">Information</h4>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            All Ragnarok trademarks, logos, and game assets belong to their respective copyright holders. This landing page is built as a premier demonstration of modern web performance, CRO optimization, and glassmorphic UI architecture.
-          </p>
+        <!-- Card 6 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-cyan-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Switching from Werewolf melee claws straight to Wereraptor aerial strikes mid-combat is the smoothest combat transition I've seen in any MMORPG this decade."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-ro-azure flex items-center justify-center font-bold text-sm border border-cyan-500/30">L</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Lucas 'Fenrir' Becker</div>
+              <div class="text-xs text-slate-400">Druid Shapeshifter Main</div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-        <div>
-          © 2026 Ragnarok: The New World Fan & Community Preview. All rights reserved.
+        <!-- Card 7 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-yellow-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The vending system and live player marketplace bring back the golden age of Prontera street peddling, but modernized without the annoying bot inflation."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-300 flex items-center justify-center font-bold text-sm border border-yellow-500/30">A</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Aaliyah Mansoor</div>
+              <div class="text-xs text-slate-400">Economy & Market Trader</div>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center space-x-6">
-          <a href="https://store.steampowered.com/app/4212480/Ragnarok_The_New_World/" target="_blank" rel="noopener noreferrer" class="hover:text-ro-azure transition-colors">Steam Store Page</a>
-          <span>•</span>
-          <span class="text-slate-600 font-mono">AppID: 4212480</span>
+
+        <!-- Card 8 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Runs at a flawless locked 60 FPS on Steam Deck and 120 FPS on desktop. The native controller layout and keybinds are incredibly well-tuned."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold text-sm border border-indigo-500/30">T</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Tatsumi Endo</div>
+              <div class="text-xs text-slate-400">Steam Deck Enthusiast</div>
+            </div>
+          </div>
         </div>
+
+        <!-- Card 9 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-violet-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "No pay-to-win gear destruction! Getting to +15 without your weapon shattering to dust completely redefines endgame competitive integrity."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-violet-500/20 text-ro-violet flex items-center justify-center font-bold text-sm border border-violet-500/30">C</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Chloe 'Valkyrie' Dupont</div>
+              <div class="text-xs text-slate-400">GvG Tournament Finalist</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 10 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-rose-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Taming the MVP boss you just defeated and turning it into your rideable mount is the ultimate flex. Riding Baphomet through town never gets old."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-red-500/20 text-ro-crimson flex items-center justify-center font-bold text-sm border border-red-500/30">D</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Dante Morales</div>
+              <div class="text-xs text-slate-400">PvE MVP Hunter</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 11 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-pink-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The character customization is insane! Custom hair dye shades, layered headpieces, and outfit cuts let every adventurer look 100% unique."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-300 flex items-center justify-center font-bold text-sm border border-pink-500/30">H</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Hana Takahashi</div>
+              <div class="text-xs text-slate-400">Fashion & Dye Enthusiast</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 12 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-teal-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The couple instances and instant duo teleports made leveling with my partner so much fun. The wedding ceremony in the Cathedral was magical!"
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-teal-500/20 text-teal-300 flex items-center justify-center font-bold text-sm border border-teal-500/30">B</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Bram Van Dijk</div>
+              <div class="text-xs text-slate-400">Duo & Romance Explorer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 13 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-sky-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "No forced meta! You can make hybrid builds, summoner archetypes, or infinite crowd control work in high-tier dungeons without getting gatekept."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-sky-500/20 text-ro-azure flex items-center justify-center font-bold text-sm border border-sky-500/30">O</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Oliver Queenan</div>
+              <div class="text-xs text-slate-400">Theorycrafter & Build Maker</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 14 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-yellow-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The orchestral re-recordings of 'Theme of Prontera' and 'Wanna Be Free!!' gave me chills. It honors the 20-year legacy while feeling totally new."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-300 flex items-center justify-center font-bold text-sm border border-yellow-500/30">Y</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Yukihiro Sato</div>
+              <div class="text-xs text-slate-400">Original RO 2002 Fan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 15 -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Offline resource hunting is a lifesaver for working parents. I wake up, collect my offline farming loot, and jump straight into fun dungeon runs with friends."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-ro-emerald flex items-center justify-center font-bold text-sm border border-emerald-500/30">C</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Carlos 'Ragnar' Silva</div>
+              <div class="text-xs text-slate-400">Casual Weekend Explorer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= DUPLICATE SET FOR SEAMLESS 100% INFINITE LOOP ================= -->
+        <!-- Card 1 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-ro-azure/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Free stat resets forever and no gear breakage at +15? This fixes every single headache I had with old-school RO. The Druid's Wereraptor form is pure adrenaline!"
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-blue-500/20 text-ro-azure flex items-center justify-center font-bold text-sm border border-blue-500/30">K</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Kaelen Vance</div>
+              <div class="text-xs text-slate-400">RO Veteran (15 Years)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-ro-emerald/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Being able to seamlessly switch between my phone during commute and 120 FPS on my gaming rig at home without losing a second of progress is true next-gen MMORPG design."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-ro-emerald flex items-center justify-center font-bold text-sm border border-emerald-500/30">S</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Seraphina Li</div>
+              <div class="text-xs text-slate-400">Cross-Platform Guild Leader</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-purple-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The player-driven auction house and offline resource hunting let me progress even with a busy work schedule. Plus the fashion dye options let us match our guild outfits!"
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-purple-500/20 text-ro-violet flex items-center justify-center font-bold text-sm border border-purple-500/30">M</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Marek Thorne</div>
+              <div class="text-xs text-slate-400">Beta Tester & Merchant</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Finally an open-world Ragnarok with real verticality! Climbing the Prontera cliffs and gliding down into hidden dungeon entrances feels breathtaking on PC."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-amber-500/20 text-ro-gold flex items-center justify-center font-bold text-sm border border-amber-500/30">J</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Jin-Woo Park</div>
+              <div class="text-xs text-slate-400">Hardcore WoE Strategist</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-rose-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Zero skill reset cost means I can spec full support healer for Guild raids, then switch to battle solo DPS in 5 seconds. True gameplay freedom without punishment."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-rose-500/20 text-ro-crimson flex items-center justify-center font-bold text-sm border border-rose-500/30">E</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Elena Rostova</div>
+              <div class="text-xs text-slate-400">Support Main & High Priest</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-cyan-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Switching from Werewolf melee claws straight to Wereraptor aerial strikes mid-combat is the smoothest combat transition I've seen in any MMORPG this decade."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-ro-azure flex items-center justify-center font-bold text-sm border border-cyan-500/30">L</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Lucas 'Fenrir' Becker</div>
+              <div class="text-xs text-slate-400">Druid Shapeshifter Main</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-yellow-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The vending system and live player marketplace bring back the golden age of Prontera street peddling, but modernized without the annoying bot inflation."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-300 flex items-center justify-center font-bold text-sm border border-yellow-500/30">A</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Aaliyah Mansoor</div>
+              <div class="text-xs text-slate-400">Economy & Market Trader</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 8 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Runs at a flawless locked 60 FPS on Steam Deck and 120 FPS on desktop. The native controller layout and keybinds are incredibly well-tuned."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold text-sm border border-indigo-500/30">T</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Tatsumi Endo</div>
+              <div class="text-xs text-slate-400">Steam Deck Enthusiast</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 9 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-violet-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "No pay-to-win gear destruction! Getting to +15 without your weapon shattering to dust completely redefines endgame competitive integrity."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-violet-500/20 text-ro-violet flex items-center justify-center font-bold text-sm border border-violet-500/30">C</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Chloe 'Valkyrie' Dupont</div>
+              <div class="text-xs text-slate-400">GvG Tournament Finalist</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 10 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-rose-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Taming the MVP boss you just defeated and turning it into your rideable mount is the ultimate flex. Riding Baphomet through town never gets old."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-red-500/20 text-ro-crimson flex items-center justify-center font-bold text-sm border border-red-500/30">D</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Dante Morales</div>
+              <div class="text-xs text-slate-400">PvE MVP Hunter</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 11 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-pink-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The character customization is insane! Custom hair dye shades, layered headpieces, and outfit cuts let every adventurer look 100% unique."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-300 flex items-center justify-center font-bold text-sm border border-pink-500/30">H</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Hana Takahashi</div>
+              <div class="text-xs text-slate-400">Fashion & Dye Enthusiast</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 12 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-teal-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The couple instances and instant duo teleports made leveling with my partner so much fun. The wedding ceremony in the Cathedral was magical!"
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-teal-500/20 text-teal-300 flex items-center justify-center font-bold text-sm border border-teal-500/30">B</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Bram Van Dijk</div>
+              <div class="text-xs text-slate-400">Duo & Romance Explorer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 13 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-sky-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "No forced meta! You can make hybrid builds, summoner archetypes, or infinite crowd control work in high-tier dungeons without getting gatekept."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-sky-500/20 text-ro-azure flex items-center justify-center font-bold text-sm border border-sky-500/30">O</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Oliver Queenan</div>
+              <div class="text-xs text-slate-400">Theorycrafter & Build Maker</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 14 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-yellow-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "The orchestral re-recordings of 'Theme of Prontera' and 'Wanna Be Free!!' gave me chills. It honors the 20-year legacy while feeling totally new."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-300 flex items-center justify-center font-bold text-sm border border-yellow-500/30">Y</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Yukihiro Sato</div>
+              <div class="text-xs text-slate-400">Original RO 2002 Fan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 15 Duplicate -->
+        <div class="w-[330px] sm:w-[390px] flex-shrink-0 mx-3 glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex text-ro-gold text-sm tracking-wider">★★★★★</div>
+            <p class="text-slate-300 text-sm leading-relaxed italic">
+              "Offline resource hunting is a lifesaver for working parents. I wake up, collect my offline farming loot, and jump straight into fun dungeon runs with friends."
+            </p>
+          </div>
+          <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-ro-emerald flex items-center justify-center font-bold text-sm border border-emerald-500/30">C</div>
+            <div>
+              <div class="text-sm font-semibold text-white">Carlos 'Ragnar' Silva</div>
+              <div class="text-xs text-slate-400">Casual Weekend Explorer</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </footer>
+  </section>
+
+  <!-- FINAL CALL TO ACTION SECTION (THE VERY LAST ELEMENT ON THE PAGE) -->
+  <section class="relative w-full py-32 sm:py-44 z-10 overflow-hidden border-t border-white/10">
+    <!-- Background Image (Edge to edge full width, bright & vibrant) -->
+    <div class="absolute inset-0 w-full h-full -z-10 overflow-hidden">
+      <img src="assets/images/cta-bg.jpg" 
+           onerror="this.onerror=null; this.src='assets/images/gallery-1.jpg';" 
+           alt="Ragnarok CTA Background" 
+           class="w-full h-full object-cover object-center filter brightness-95 contrast-105 saturate-110 scale-105 transition-all duration-700" />
+      <!-- Soft subtle edge fade so image stays bright and clear -->
+      <div class="absolute inset-0 bg-gradient-to-b from-[#070b14]/70 via-black/25 to-[#070b14]/80"></div>
+      <!-- Soft ambient cyan glow -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.12)_0%,transparent_70%)] pointer-events-none"></div>
+    </div>
+
+    <!-- Centered Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+      <span class="inline-flex items-center px-4 py-1.5 rounded-full bg-ro-azure/15 backdrop-blur-md text-ro-azure border border-ro-azure/40 text-xs font-mono uppercase tracking-wider shadow-lg">
+        Dare to Play Different
+      </span>
+
+      <h2 class="text-4xl sm:text-6xl md:text-7xl font-display font-black text-white leading-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+        Meet Us in the <br />
+        <span class="gradient-text-gold">New World</span>
+      </h2>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://store.steampowered.com/app/4212480/Ragnarok_The_New_World/" target="_blank" rel="noopener noreferrer" 
+           class="w-full sm:w-auto glass-btn-steam text-white text-lg font-bold px-10 py-5 rounded-2xl flex items-center justify-center gap-3 shadow-[0_15px_40px_rgba(16,124,65,0.6)] hover:scale-105 transition-all duration-300">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0z"/>
+          </svg>
+          <span>Wishlist on Steam Now</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- 3D Sound Controller Script -->
   <script>
